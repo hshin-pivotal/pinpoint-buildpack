@@ -19,3 +19,5 @@ cf push -f manifest.yml -b https://github.com/myminseok/pinpoint-buildpack -b ja
 
 See https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html for buildpack basics. This is an 
 intermediate buildpack using only the bin/supply script.
+
+This buildpack is inspired by https://github.com/cf-platform-eng/eureka-registrar-sidecar
