@@ -37,7 +37,7 @@ cat $DEPS_DIR/$INDEX_DIR/config.yml
 
 
 
-echo "** Downloading  https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true -O pinpoint-agent-1.7.4-SNAPSHOT.zip"
+echo "** Downloading  https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip"
 mkdir -p $DEPS_DIR/$INDEX_DIR/pinpoint
 cd $DEPS_DIR/$INDEX_DIR/pinpoint
 wget -q https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true -O pinpoint-agent-1.7.4-SNAPSHOT.zip > /dev/null 2>&1
