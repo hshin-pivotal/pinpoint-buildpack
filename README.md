@@ -1,7 +1,9 @@
 # Pinpoint Buildpack 
+## purpose
+This buildpack is intened to seperate pinpoint buildpack from java_buildpack_offline which is maintained by OSS, so that you can keep update java_buildpack_offline regardless of pinpoint buildpack version.
 
+## how it works
 This is a non-final buildpack for Cloud Foundry that provides integration with Pinpoint agent(https://naver.github.io/pinpoint)
-
 This buildpack works with final buildpack that supports multi buildpack such as java-buildpack(https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-multi_buildpack.md#multiple-buildpack-integration-api)
 
 When this buildpack is present in your Cloud Foundry deployment, all you will have to do to register all 
