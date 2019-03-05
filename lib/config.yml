@@ -1,4 +1,4 @@
-name: eureka-registerar-sidecar 
+name: pinpoint-buildpack
 config: 
 #  environment_variables: { "AGENT_PATH": "/home/vcap/deps/0/pinpoint"}
   java_opts:
