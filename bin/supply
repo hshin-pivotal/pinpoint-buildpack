@@ -28,16 +28,6 @@ echo "starting multi-buildpack"
 
 # put code in <deps>/<index>
 
-cp $ROOT_DIR/lib/eureka_registrar.py $DEPS_DIR/$INDEX_DIR
-
-# startup script goes into <deps>/<index>/profile.d
-# final build pack *should* copy it into $HOME/profile.d for
-# execution upon container startup
-
-mkdir -p $DEPS_DIR/$INDEX_DIR/profile.d
-cp $ROOT_DIR/lib/eureka_registrar.sh $DEPS_DIR/$INDEX_DIR/profile.d
-
-
 echo "** Configuring multi buildpack"
 cp $ROOT_DIR/lib/config.yml $DEPS_DIR/$INDEX_DIR/config.yml
 APPLICATION_NAME=`echo $VCAP_APPLICATION | jq  .application_name -r`
