@@ -20,6 +20,6 @@
 # bin/build is still required for backwards compatibility
 # cf create-buildpack will fail if it isn't present
 
-echo "eureka-registrar is an intermediate buildpack."
+echo "This is an intermediate buildpack."
 echo "Please specify a suitable final buildpack."
 exit 1
