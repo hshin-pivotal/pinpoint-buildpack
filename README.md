@@ -11,8 +11,10 @@ as long as the application container is alive when you provide the eureka_regist
 buildpack when pushing your application.
 
 ```sh
-foo@bar:my-java-app$ cf push -f manifest.yml -b https://github.com/myminseok/pinpoint-buildpack -b java_buildpack_offline
-
+git clone  https://github.com/myminseok/spring-music
+cd spring-music
+./gradlew clean assemble
+cf push -f manifest.yml -b https://github.com/myminseok/pinpoint-buildpack -b java_buildpack_offline -p build/libs/spring-music.jar
 ```
 
 See https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html for buildpack basics. This is an 
