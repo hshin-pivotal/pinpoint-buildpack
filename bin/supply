@@ -53,7 +53,7 @@ else
   rm -rf $DEPS_DIR_PINPOINT_AGENT_DIR/pinpoint.config
   ls -al
   topic "Downloading pinpoint.config from $PINPOINT_CONFIG_URL"
-  ## "https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config" 
+  ## "https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config-1.8.2" 
   wget -q $PINPOINT_CONFIG_URL -O pinpoint.config
 fi
 
