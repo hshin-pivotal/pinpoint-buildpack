@@ -1,6 +1,8 @@
 # Pinpoint Buildpack 
-## Purpose
-This buildpack is intended to seperate pinpoint buildpack from java_buildpack_offline, so that you can keep updating java_buildpack_offline regardless of pinpoint buildpack version.
+
+## Purpose of this buildpack.
+Pinpoint(https://naver.github.io/pinpoint/index.html) an APM (Application Performance Management) tool for large-scale distributed systems written in Java / PHP. Inspired by Dapper, Pinpoint provides a solution to help analyze the overall structure of the system and how components within them are interconnected by tracing transactions across distributed applications.
+This buildpack installs Pinpoint agent and configuration to your app automatically. and intended to seperate pinpoint buildpack from java_buildpack_offline, so that you can keep updating java_buildpack_offline regardless of pinpoint buildpack version.
 
 ## How it works
 This is a non-final buildpack for Cloud Foundry that provides integration with Pinpoint agent(https://naver.github.io/pinpoint)
