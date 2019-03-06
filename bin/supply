@@ -31,22 +31,22 @@ topic "Starting multi-buildpack"
 
 
 ## download PINPOINT_AGENT_ZIP && unzip
-if [ -z "${PINPOINT_AGENT_ZIP_DOWNLOAD_URL}" ]; then
-  PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" 
+if [ -z "${PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL}" ]; then
+  PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.8.2.tar.gz?raw=true" 
 fi
 DEPS_DIR_PINPOINT_AGENT_DIR=$DEPS_DIR/$INDEX_DIR/pinpoint
 mkdir -p $DEPS_DIR_PINPOINT_AGENT_DIR
 cd $DEPS_DIR_PINPOINT_AGENT_DIR
-topic "Downloading pinpoint agent binary from $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
-wget -q $PINPOINT_AGENT_ZIP_DOWNLOAD_URL -O pinpoint-agent.zip > /dev/null 2>&1
-ls -alh pinpoint-agent.zip
-unzip pinpoint-agent.zip > /dev/null 2>&1
-rm -rf pinpoint-agent.zip
+topic "Downloading pinpoint agent binary from $PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL"
+wget -q $PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL -O pinpoint-agent.tar.gz > /dev/null 2>&1
+ls -alh pinpoint-agent.tar.gz
+tar xf pinpoint-agent.tar.gz > /dev/null 2>&1
+rm -rf pinpoint-agent.tar.gz
 
 
 ## Downloading pinpoint.config 
 if [ -z "${PINPOINT_CONFIG_URL}" ]; then
-  topic "Use pinpoint.config packaged in $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
+  topic "Use pinpoint.config packaged in $PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL"
 else
   rm -rf $DEPS_DIR_PINPOINT_AGENT/pinpoint.config
   topic "Downloading pinpoint.config from $PINPOINT_CONFIG_URL"
