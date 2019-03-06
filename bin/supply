@@ -54,7 +54,7 @@ else
   ls -al
   topic "Downloading pinpoint.config from $PINPOINT_CONFIG_URL"
   ## "https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config" 
-  wget -q $PINPOINT_CONFIG_URL
+  wget -q $PINPOINT_CONFIG_URL -O pinpoint.config
 fi
 
 topic "Configuring multi buildpack configuration to config.yml"
