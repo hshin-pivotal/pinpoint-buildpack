@@ -32,8 +32,9 @@ cd spring-music
 ./gradlew clean assemble
 ```
 
+### manifest.yml
 
-```manifest.yml
+```
 ---
 applications:
 - name: spring-music
@@ -45,10 +46,11 @@ applications:
   #path: build/libs/spring-music.jar
   path: ./spring-music.jar
   env:
-    PINPOINT_AGENT_ZIP_DOWNLOAD_URL: https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true
-    PINPOINT_CONFIG_URL: https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config
+    PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL: https://github.com/naver/pinpoint/releases/download/1.8.2/pinpoint-agent-1.8.2.tar.gz
+    PINPOINT_CONFIG_URL: https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config-1.8.2
 ```
-
+- PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL: (optional, default: https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.8.2-SNAPSHOT.tar.gz?raw=true )url for pinpoint-agent-1.7.4-SNAPSHOT.tar.gz, git binary from https://github.com/naver/pinpoint/releases
+- PINPOINT_CONFIG_URL: (optional, default: pinpoint.config packaged in PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL)
 
 ```
 cf push -f manifest.yml -b pinpoint_buildpack -b java_buildpack_offline -p build/libs/spring-music.jar
