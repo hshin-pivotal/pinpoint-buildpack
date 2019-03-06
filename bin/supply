@@ -27,33 +27,44 @@ INDEX_DIR=$4
 source $BIN_DIR/staging-util.sh
 
 topic "Starting multi-buildpack"
-# put code in <deps>/<index>
+## put code in <deps>/<index>
 
-topic "Configuring multi buildpack configuration"
-cp $ROOT_DIR/lib/config.yml $DEPS_DIR/$INDEX_DIR/config.yml
-APPLICATION_NAME=`echo $VCAP_APPLICATION | jq  .application_name -r`
-sed -i "s/__PINPOINT.APP_NAME__/$APPLICATION_NAME/g" $DEPS_DIR/$INDEX_DIR/config.yml
-cat $DEPS_DIR/$INDEX_DIR/config.yml
 
+## download PINPOINT_AGENT_ZIP && unzip
 if [ -z "${PINPOINT_AGENT_ZIP_DOWNLOAD_URL}" ]; then
   PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" 
 fi
-
-mkdir -p $DEPS_DIR/$INDEX_DIR/pinpoint
-cd $DEPS_DIR/$INDEX_DIR/pinpoint
+DEPS_DIR_PINPOINT_AGENT=$DEPS_DIR/$INDEX_DIR/pinpoint
+mkdir -p $DEPS_DIR_PINPOINT_AGENT
+cd $DEPS_DIR_PINPOINT_AGENT
 topic "Downloading pinpoint agent binaries from $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
 wget -q $PINPOINT_AGENT_ZIP_DOWNLOAD_URL -O pinpoint-agent.zip > /dev/null 2>&1
 ls -alh pinpoint-agent.zip
 unzip pinpoint-agent.zip > /dev/null 2>&1
 rm -rf pinpoint-agent.zip
 
+
+## Downloading pinpoint.config 
 if [ -z "${PINPOINT_CONFIG_URL}" ]; then
-  topic "Pinpoint will use pinpoint.config packaged in $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
+  topic "Use pinpoint.config packaged in $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
 else
-  rm -rf pinpoint.config
+  rm -rf $DEPS_DIR_PINPOINT_AGENT/pinpoint.config
   topic "Downloading pinpoint.config from $PINPOINT_CONFIG_URL"
   ## "https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config" 
   wget -q $PINPOINT_CONFIG_URL
 fi
+
+topic "Configuring multi buildpack configuration to config.yml"
+## find  "pinpoint-bootstrap*.jar" && replace to config.yml
+cd $DEPS_DIR_PINPOINT_AGENT
+PINPOINT_AGENT_JAR=`find . -maxdepth 1 -name "pinpoint-bootstrap*.jar"`
+sed -i "s/__PINPOINT.AGENT_JAR__/$PINPOINT_AGENT_JAR/g"  $DEPS_DIR/$INDEX_DIR/config.yml
+
+cp $ROOT_DIR/lib/config.yml $DEPS_DIR/$INDEX_DIR/config.yml
+APPLICATION_NAME=`echo $VCAP_APPLICATION | jq  .application_name -r`
+sed -i "s/__PINPOINT.APP_NAME__/$APPLICATION_NAME/g" $DEPS_DIR/$INDEX_DIR/config.yml
+
+cat $DEPS_DIR/$INDEX_DIR/config.yml
+
 
 topic "Configuring multi buildpack Completed" 
