@@ -60,3 +60,52 @@ See https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html for buil
 intermediate buildpack using only the bin/supply script.
 
 This buildpack is inspired by https://github.com/cf-platform-eng/eureka-registrar-sidecar
+
+
+
+## pinpoint server setup (docker on ubuntu)
+
+### requirements
+- https://docs.docker.com/compose/compose-file/
+- Docker Engine release: 18.02.0+
+- Docker compose: 3.6+
+
+### install docker-compose
+- https://docs.docker.com/compose/install/
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+docker-compose --version
+=> docker-compose version 1.23.2, build 1110ad01
+
+```
+
+### run pinpoint server(docker)
+- https://github.com/naver/pinpoint-docker/releases
+```
+wget https://github.com/naver/pinpoint-docker/archive/1.8.2.tar.gz
+
+tar xf  1.8.2.tar.gz
+cd pinpoint-1.8.2
+sudo docker-compose up
+
+```
+
+###  pinpoint web
+```
+open http://<pinpoint-server-ip>:8079
+```  
+  
+###  reference.
+- https://naver.github.io/pinpoint/1.7.3/installation.html
+- https://github.com/naver/pinpoint/blob/master/doc/installation.md
+
+
+
+
+http://10.10.10.199:8079
+
