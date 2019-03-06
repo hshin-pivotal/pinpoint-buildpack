@@ -36,12 +36,8 @@ APPLICATION_NAME=`echo $VCAP_APPLICATION | jq  .application_name -r`
 sed -i "s/__PINPOINT.APP_NAME__/$APPLICATION_NAME/g" $DEPS_DIR/$INDEX_DIR/config.yml
 cat $DEPS_DIR/$INDEX_DIR/config.yml
 
-# [ -z $PINPOINT_AGENT_ZIP_DOWNLOAD_URL ] && echo "PINPOINT_AGENT_ZIP_DOWNLOAD_URL empty"
-
-PINPOINT_AGENT_ZIP_DOWNLOAD_URL=$PINPOINT_AGENT_ZIP_DOWNLOAD_URL
-if [ -z "$PINPOINT_AGENT_ZIP_DOWNLOAD_URL2" ]
+if [ -z "$PINPOINT_AGENT_ZIP_DOWNLOAD_URL" ]
 then
-
 echo "default PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
 PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" 
 else
