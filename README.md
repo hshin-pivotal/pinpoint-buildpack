@@ -1,38 +1,35 @@
 # Pinpoint Buildpack 
 ## purpose
-This buildpack is intened to seperate pinpoint buildpack from java_buildpack_offline which is maintained by OSS, so that you can keep update java_buildpack_offline regardless of pinpoint buildpack version.
+This buildpack is intended to seperate pinpoint buildpack from java_buildpack_offline, so that you can keep updating java_buildpack_offline regardless of pinpoint buildpack version.
 
 ## how it works
 This is a non-final buildpack for Cloud Foundry that provides integration with Pinpoint agent(https://naver.github.io/pinpoint)
 This buildpack works with final buildpack that supports multi buildpack such as java-buildpack(https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-multi_buildpack.md#multiple-buildpack-integration-api)
-
-
-## how to build buildpack
-- prepare your pinpoint agent zip and pinpoint.config. refer to https://github.com/myminseok/pinpoint_agent_repo
-- edit buildpack configuration.
+1. you need to specify this buildpack for non-final buildpack when you push your app to cloud foundry as following:
 ```
-git clone https://github.com/myminseok/pinpoint-buildpack
-cd pinpoint-buildpack
-
-vi lib/config.yml . 
-vi bin/supply
-
-./upload
-
+cf push -f manifest.yml -b https://github.com/myminseok/pinpoint-buildpack.git -b java_buildpack_offline -p build/libs/spring-music.jar
 ```
+2. cloud foundry stages a container image by putting  downloading pinpoint-buildpack from the location you specified.
+3. pinpoint-buildpack will download two files to staging container 1) pinpoint-agent-1.8.2.tar.gz 2) pinpoint.config from the location you specified during the step1
+4. untar pinpoint-agent-1.8.2.tar.gz under /home/vcap/deps/0/pinpoint
+5. place pinpoint.config  /home/vcap/deps/0/pinpoint
+6. set JAVA_OPS Envirionment variables for pinpoint agent in /home/vcap/deps/0/config.yml. this file will be used by java_buildpack_offline buildpack to run app. config.yml has pinpoint metadata such as AgentId, Application Name, AGENT_HOME, agent jar path.
+7. java_buildpack_offline start to staging runtime env for the apps.
+8. prepare runtime conmmand using /home/vcap/deps/0/config.yml.
 
-## how to deploy apps
+9. start  app containers using the staged container. when app runs, it will emits metrics to pinpoint server.
+10. in pinpoint server, each container will have Id with <APPLICATION_NAME>-<INSTANCE_INDEX> under <APPLICATION_NAME> view.
 
 
-just use -b option for multiple buildpacks when you push your app.
+## deploy sample app
 
+1. prepare application jar
 ```sh
 git clone  https://github.com/myminseok/spring-music
 cd spring-music
 ./gradlew clean assemble
 ```
-
-### manifest.yml
+2. prepare manifest.yml
 
 ```
 ---
@@ -49,28 +46,26 @@ applications:
     PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL: https://github.com/naver/pinpoint/releases/download/1.8.2/pinpoint-agent-1.8.2.tar.gz
     PINPOINT_CONFIG_URL: https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config-1.8.2
 ```
-- PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL: (optional, default: https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.8.2-SNAPSHOT.tar.gz?raw=true )url for pinpoint-agent-1.7.4-SNAPSHOT.tar.gz, git binary from https://github.com/naver/pinpoint/releases
-- PINPOINT_CONFIG_URL: configuraton for pinpoint. profiler.collector.ip should point the pinpoint server. (optional, default: pinpoint.config packaged in PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL)
+- buildpacks: specify pinpoint-buildpack and java_buildpack_offline
+- PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL: pinpoint-agent url to download url(https://..../pinpoint-agent-1.7.4-SNAPSHOT.tar.gz). see https://github.com/naver/pinpoint/releases. (optional, default in buildpack : https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.8.2-SNAPSHOT.tar.gz?raw=true)
+- PINPOINT_CONFIG_URL: configuraton for pinpoint. profiler.collector.ip should point the pinpoint server. (optional, default in buildpack: pinpoint.config packaged in PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL)
 
+3. push apps
 ```
-cf push -f manifest.yml -b pinpoint_buildpack -b java_buildpack_offline -p build/libs/spring-music.jar
+cf push -f manifest.yml
+
+cf logs spring-music
 ```
 
-See https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html for buildpack basics. This is an 
-intermediate buildpack using only the bin/supply script.
-
-This buildpack is inspired by https://github.com/cf-platform-eng/eureka-registrar-sidecar
 
 
-
-## pinpoint server setup (docker on ubuntu)
-
-### requirements
+## setup pinpoint server (docker on ubuntu)
+0. requirements
 - https://docs.docker.com/compose/compose-file/
 - Docker Engine release: 18.02.0+
 - Docker compose: 3.6+
 
-### install docker-compose
+1. install docker-compose
 - https://docs.docker.com/compose/install/
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -84,7 +79,7 @@ docker-compose --version
 
 ```
 
-### run pinpoint server(docker)
+2. run pinpoint server(docker)
 - https://github.com/naver/pinpoint-docker/releases
 ```
 wget https://github.com/naver/pinpoint-docker/archive/1.8.2.tar.gz
@@ -95,17 +90,31 @@ sudo docker-compose up
 
 ```
 
-###  pinpoint web
+3. open pinpoint web
 ```
 open http://<pinpoint-server-ip>:8079
 ```  
+
+
+## how to build buildpack(offline)
+- prepare your pinpoint agent zip and pinpoint.config. refer to https://github.com/myminseok/pinpoint_agent_repo
+- edit buildpack configuration.
+```
+git clone https://github.com/myminseok/pinpoint-buildpack
+cd pinpoint-buildpack
+
+vi lib/config.yml . 
+vi bin/supply
+
+./upload
+
+```
   
 ###  reference.
 - https://naver.github.io/pinpoint/1.7.3/installation.html
 - https://github.com/naver/pinpoint/blob/master/doc/installation.md
+- See https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html for buildpack basics. This is an intermediate buildpack using only the bin/supply script.
 
+This buildpack is inspired by https://github.com/cf-platform-eng/eureka-registrar-sidecar
 
-
-
-http://10.10.10.199:8079
 
