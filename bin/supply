@@ -48,7 +48,9 @@ rm -rf pinpoint-agent.tar.gz
 if [ -z "${PINPOINT_CONFIG_URL}" ]; then
   topic "Use pinpoint.config packaged in $PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL"
 else
+  pwd
   rm -rf $DEPS_DIR_PINPOINT_AGENT/pinpoint.config
+  ls -al
   topic "Downloading pinpoint.config from $PINPOINT_CONFIG_URL"
   ## "https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config" 
   wget -q $PINPOINT_CONFIG_URL
