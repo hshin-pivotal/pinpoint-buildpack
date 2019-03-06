@@ -34,6 +34,7 @@ topic "Staging Pinpoint-buildpack"
 if [ -z "${PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL}" ]; then
   PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.8.2.tar.gz?raw=true" 
 fi
+
 DEPS_DIR_PINPOINT_AGENT_DIR=$DEPS_DIR/$INDEX_DIR/pinpoint
 mkdir -p $DEPS_DIR_PINPOINT_AGENT_DIR
 cd $DEPS_DIR_PINPOINT_AGENT_DIR
@@ -49,7 +50,7 @@ if [ -z "${PINPOINT_CONFIG_URL}" ]; then
   topic "Use pinpoint.config packaged in $PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL"
 else
   pwd
-  rm -rf $DEPS_DIR_PINPOINT_AGENT/pinpoint.config
+  rm -rf $DEPS_DIR_PINPOINT_AGENT_DIR/pinpoint.config
   ls -al
   topic "Downloading pinpoint.config from $PINPOINT_CONFIG_URL"
   ## "https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config" 
