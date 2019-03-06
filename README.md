@@ -1,12 +1,12 @@
 # Pinpoint Buildpack 
 
 ## Purpose of this buildpack.
-Pinpoint(https://naver.github.io/pinpoint/index.html) an APM (Application Performance Management) tool for large-scale distributed systems written in Java / PHP. Inspired by Dapper, Pinpoint provides a solution to help analyze the overall structure of the system and how components within them are interconnected by tracing transactions across distributed applications.
-This buildpack installs Pinpoint agent and configuration to your app automatically. and intended to seperate pinpoint buildpack from java_buildpack_offline, so that you can keep updating java_buildpack_offline regardless of pinpoint buildpack version.
+[Pinpoint](https://naver.github.io/pinpoint/index.html) is an APM (Application Performance Management) tool for large-scale distributed systems written in Java / PHP. Inspired by Dapper, Pinpoint provides a solution to help analyze the overall structure of the system and how components within them are interconnected by tracing transactions across distributed applications.
+This buildpack installs Pinpoint agent and configuration to your app automatically. and intended to seperate pinpoint buildpack from java_buildpack_offline using [muilti-buildpack framework](https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html), so that you can keep updating java_buildpack_offline regardless of pinpoint buildpack version.
 
 ## How it works
 This is a non-final buildpack for Cloud Foundry that provides integration with Pinpoint agent(https://naver.github.io/pinpoint)
-This buildpack works with final buildpack that supports multi buildpack such as java-buildpack(https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-multi_buildpack.md#multiple-buildpack-integration-api)
+This buildpack works with final buildpack that supports multi buildpack such as [java-buildpack](https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-multi_buildpack.md#multiple-buildpack-integration-api)
 1. you need to specify this buildpack for non-final buildpack when you push your app to cloud foundry as following:
 ```
 cf push -f manifest.yml -b https://github.com/myminseok/pinpoint-buildpack.git -b java_buildpack_offline -p build/libs/spring-music.jar
@@ -62,13 +62,11 @@ cf logs spring-music
 
 
 ## Setup pinpoint server (docker on ubuntu)
-0. requirements
-- https://docs.docker.com/compose/compose-file/
+0. [requirements](https://docs.docker.com/compose/compose-file/)
 - Docker Engine release: 18.02.0+
 - Docker compose: 3.6+
 
-1. install docker-compose
-- https://docs.docker.com/compose/install/
+1. [install docker-compose](https://docs.docker.com/compose/install/)
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
@@ -81,8 +79,7 @@ docker-compose --version
 
 ```
 
-2. run pinpoint server(docker)
-- https://github.com/naver/pinpoint-docker/releases
+2. [run pinpoint server(docker)](https://github.com/naver/pinpoint-docker/releases)
 ```
 wget https://github.com/naver/pinpoint-docker/archive/1.8.2.tar.gz
 
@@ -99,7 +96,7 @@ open http://<pinpoint-server-ip>:8079
 
 
 ## How to build buildpack(offline)
-- prepare your pinpoint agent zip and pinpoint.config. refer to https://github.com/myminseok/pinpoint_agent_repo
+- prepare your pinpoint agent zip and pinpoint.config. refer to (sample repo](https://github.com/myminseok/pinpoint_agent_repo)
 - edit buildpack configuration.
 ```
 git clone https://github.com/myminseok/pinpoint-buildpack
