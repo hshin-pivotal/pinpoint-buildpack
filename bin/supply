@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #set -euo pipefail
 set -e
-# bin/compile <build-dir> <cache-dir> <env-dir>
 
 #
 # Copyright (c) 2017-Present Pivotal Software, Inc. All Rights Reserved.
@@ -36,16 +35,9 @@ APPLICATION_NAME=`echo $VCAP_APPLICATION | jq  .application_name -r`
 sed -i "s/__PINPOINT.APP_NAME__/$APPLICATION_NAME/g" $DEPS_DIR/$INDEX_DIR/config.yml
 cat $DEPS_DIR/$INDEX_DIR/config.yml
 
-if [ -z "$PINPOINT_AGENT_ZIP_DOWNLOAD_URL" ]
-then
-echo "default PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
-PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" 
-else
-echo "PINPOINT_AGENT_ZIP_DOWNLOAD_URL:$PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
-
+if [ -z "${PINPOINT_AGENT_ZIP_DOWNLOAD_URL}" ] then
+  PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" 
 fi
-
-
 
 mkdir -p $DEPS_DIR/$INDEX_DIR/pinpoint
 cd $DEPS_DIR/$INDEX_DIR/pinpoint
@@ -55,13 +47,13 @@ ls -alh pinpoint-agent.zip
 unzip pinpoint-agent.zip > /dev/null 2>&1
 rm -rf pinpoint-agent.zip
 
-if [[ -z "${PINPOINT_CONFIG_URL}" ]]; then
-topic "Pinpoint will use pinpoint.config included in $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
+if [ -z "${PINPOINT_CONFIG_URL}" ]; then
+  topic "Pinpoint will use pinpoint.config packaged in $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
 else
-rm -rf pinpoint.config
-topic "Downloading pinpoint.config from $PINPOINT_CONFIG_URL"
-## "https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config" 
-wget -q $PINPOINT_CONFIG_URL
+  rm -rf pinpoint.config
+  topic "Downloading pinpoint.config from $PINPOINT_CONFIG_URL"
+  ## "https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config" 
+  wget -q $PINPOINT_CONFIG_URL
 fi
 
 topic "Configuring multi buildpack Completed" 
