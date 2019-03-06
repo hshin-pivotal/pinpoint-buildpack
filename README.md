@@ -1,8 +1,8 @@
 # Pinpoint Buildpack 
-## purpose
+## Purpose
 This buildpack is intended to seperate pinpoint buildpack from java_buildpack_offline, so that you can keep updating java_buildpack_offline regardless of pinpoint buildpack version.
 
-## how it works
+## How it works
 This is a non-final buildpack for Cloud Foundry that provides integration with Pinpoint agent(https://naver.github.io/pinpoint)
 This buildpack works with final buildpack that supports multi buildpack such as java-buildpack(https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-multi_buildpack.md#multiple-buildpack-integration-api)
 1. you need to specify this buildpack for non-final buildpack when you push your app to cloud foundry as following:
@@ -59,7 +59,7 @@ cf logs spring-music
 
 
 
-## setup pinpoint server (docker on ubuntu)
+## Setup pinpoint server (docker on ubuntu)
 0. requirements
 - https://docs.docker.com/compose/compose-file/
 - Docker Engine release: 18.02.0+
@@ -96,7 +96,7 @@ open http://<pinpoint-server-ip>:8079
 ```  
 
 
-## how to build buildpack(offline)
+## How to build buildpack(offline)
 - prepare your pinpoint agent zip and pinpoint.config. refer to https://github.com/myminseok/pinpoint_agent_repo
 - edit buildpack configuration.
 ```
@@ -110,7 +110,7 @@ vi bin/supply
 
 ```
   
-###  reference.
+### Reference.
 - https://naver.github.io/pinpoint/1.7.3/installation.html
 - https://github.com/naver/pinpoint/blob/master/doc/installation.md
 - See https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html for buildpack basics. This is an intermediate buildpack using only the bin/supply script.
