@@ -59,7 +59,7 @@ cp $ROOT_DIR/lib/config.yml $DEPS_DIR/$INDEX_DIR/config.yml
 
 ## find  "pinpoint-bootstrap*.jar" && replace to config.yml
 cd $DEPS_DIR_PINPOINT_AGENT_DIR
-PINPOINT_AGENT_JAR=`find . -maxdepth 1 -name "pinpoint-bootstrap*.jar"`
+PINPOINT_AGENT_JAR=`find . -type f -maxdepth 1 -name "pinpoint-bootstrap*.jar" -printf '%P\n'`
 sed -i "s/__PINPOINT.AGENT_JAR__/$PINPOINT_AGENT_JAR/g" $DEPS_DIR/$INDEX_DIR/config.yml
 
 APPLICATION_NAME=`echo $VCAP_APPLICATION | jq  .application_name -r`
