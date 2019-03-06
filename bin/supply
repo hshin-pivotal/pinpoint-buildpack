@@ -32,16 +32,15 @@ env
 
 # put code in <deps>/<index>
 
-topic "** Configuring multi buildpack"
+topic "Configuring multi buildpack configuration"
 cp $ROOT_DIR/lib/config.yml $DEPS_DIR/$INDEX_DIR/config.yml
 APPLICATION_NAME=`echo $VCAP_APPLICATION | jq  .application_name -r`
-echo "** APPLICATION_NAME: $APPLICATION_NAME"
 sed -i "s/__PINPOINT.APP_NAME__/$APPLICATION_NAME/g" $DEPS_DIR/$INDEX_DIR/config.yml
-
-
-
 cat $DEPS_DIR/$INDEX_DIR/config.yml
-if [ -z "${PINPOINT_AGENT_ZIP_DOWNLOAD_URL}" ] then do PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" fi
+
+
+
+if [ -z "${PINPOINT_AGENT_ZIP_DOWNLOAD_URL}" ]; do PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" fi
 
 
 mkdir -p $DEPS_DIR/$INDEX_DIR/pinpoint
