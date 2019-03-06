@@ -58,6 +58,7 @@ topic "Configuring multi buildpack configuration to config.yml"
 ## find  "pinpoint-bootstrap*.jar" && replace to config.yml
 cd $DEPS_DIR_PINPOINT_AGENT
 PINPOINT_AGENT_JAR=`find . -maxdepth 1 -name "pinpoint-bootstrap*.jar"`
+echo $PINPOINT_AGENT_JAR
 sed -i "s/__PINPOINT.AGENT_JAR__/$PINPOINT_AGENT_JAR/g"  $DEPS_DIR/$INDEX_DIR/config.yml
 
 cp $ROOT_DIR/lib/config.yml $DEPS_DIR/$INDEX_DIR/config.yml
