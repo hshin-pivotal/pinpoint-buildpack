@@ -48,6 +48,7 @@ mkdir -p $DEPS_DIR/$INDEX_DIR/pinpoint
 cd $DEPS_DIR/$INDEX_DIR/pinpoint
 topic "Downloading pinpoint agent binaries from $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
 wget -q $PINPOINT_AGENT_ZIP_DOWNLOAD_URL -O pinpoint-agent.zip > /dev/null 2>&1
+ls -al pinpoint-agent.zip
 unzip pinpoint-agent.zip > /dev/null 2>&1
 rm -rf pinpoint-agent.zip
 rm -rf pinpoint.config
