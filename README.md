@@ -30,6 +30,27 @@ just use -b option for multiple buildpacks when you push your app.
 git clone  https://github.com/myminseok/spring-music
 cd spring-music
 ./gradlew clean assemble
+```
+
+
+```manifest.yml
+---
+applications:
+- name: spring-music
+  memory: 1G
+  buildpacks:
+  - https://github.com/myminseok/pinpoint-buildpack
+  - java_buildpack_offline
+  random-route: true
+  #path: build/libs/spring-music.jar
+  path: ./spring-music.jar
+  env:
+    PINPOINT_AGENT_ZIP_DOWNLOAD_URL: https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true
+    PINPOINT_CONFIG_URL: https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config
+```
+
+
+```
 cf push -f manifest.yml -b pinpoint_buildpack -b java_buildpack_offline -p build/libs/spring-music.jar
 ```
 
