@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
 #
@@ -23,30 +25,34 @@ CACHE_DIR=$2
 DEPS_DIR=$3
 INDEX_DIR=$4
 
-set -e
-echo "starting multi-buildpack"
+source $BIN_DIR/bin/staging-util.sh
+
+topic "starting multi-buildpack"
 env
-echo "PINPOINT-REPO: ${PINPOINT_REPO}"
+
 # put code in <deps>/<index>
 
-echo "** Configuring multi buildpack"
+topic "** Configuring multi buildpack"
 cp $ROOT_DIR/lib/config.yml $DEPS_DIR/$INDEX_DIR/config.yml
 APPLICATION_NAME=`echo $VCAP_APPLICATION | jq  .application_name -r`
 echo "** APPLICATION_NAME: $APPLICATION_NAME"
 sed -i "s/__PINPOINT.APP_NAME__/$APPLICATION_NAME/g" $DEPS_DIR/$INDEX_DIR/config.yml
+
+
+
 cat $DEPS_DIR/$INDEX_DIR/config.yml
+if [ -z "${PINPOINT_AGENT_ZIP_DOWNLOAD_URL}" ] then do PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" fi
 
 
-
-echo "** Downloading  https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip"
 mkdir -p $DEPS_DIR/$INDEX_DIR/pinpoint
 cd $DEPS_DIR/$INDEX_DIR/pinpoint
-wget -q https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true -O pinpoint-agent-1.7.4-SNAPSHOT.zip > /dev/null 2>&1
-unzip pinpoint-agent-1.7.4-SNAPSHOT.zip > /dev/null 2>&1
-rm -rf pinpoint-agent-1.7.4-SNAPSHOT.zip
+topic "Downloading pinpoint agent binaries from $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
+wget -q $PINPOINT_AGENT_ZIP_DOWNLOAD_URL -O pinpoint-agent.zip > /dev/null 2>&1
+unzip pinpoint-agent.zip > /dev/null 2>&1
+rm -rf pinpoint-agent.zip
 rm -rf pinpoint.config
 
-echo "** Downloading https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config"
+topic "** Downloading https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config"
 wget -q https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config
 
-echo "** Configuring multi buildpack Completed" 
+topic "** Configuring multi buildpack Completed" 
