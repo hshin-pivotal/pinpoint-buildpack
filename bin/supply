@@ -43,9 +43,7 @@ cat $DEPS_DIR/$INDEX_DIR/config.yml
 if [[ -z "${PINPOINT_AGENT_ZIP_DOWNLOAD_URL}" ]]; then
 PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" 
 fi
-if [[ -z "${PINPOINT_CONFIG_REPO_URL}" ]]; then
-PINPOINT_CONFIG_REPO_URL="https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config" 
-fi
+
 
 
 mkdir -p $DEPS_DIR/$INDEX_DIR/pinpoint
@@ -55,9 +53,14 @@ wget -q $PINPOINT_AGENT_ZIP_DOWNLOAD_URL -O pinpoint-agent.zip > /dev/null 2>&1
 ls -al pinpoint-agent.zip
 unzip pinpoint-agent.zip > /dev/null 2>&1
 rm -rf pinpoint-agent.zip
+
+if [[ -z "${PINPOINT_CONFIG_URL}" ]]; then
+topic "Pinpoint will use pinpoint.config included in $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
+else
 rm -rf pinpoint.config
+topic "Downloading pinpoint.config from $PINPOINT_CONFIG_URL"
+## "https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config" 
+wget -q $PINPOINT_CONFIG_URL
+fi
 
-topic "** Downloading pinpoint.config from $PINPOINT_CONFIG_REPO_URL"
-wget -q $PINPOINT_CONFIG_REPO_URL
-
-topic "** Configuring multi buildpack Completed" 
+topic "Configuring multi buildpack Completed" 
