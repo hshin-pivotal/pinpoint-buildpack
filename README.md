@@ -15,7 +15,7 @@ cf push -f manifest.yml -b https://github.com/myminseok/pinpoint-buildpack.git -
 3. pinpoint-buildpack will download two files to staging container 1) pinpoint-agent-1.8.2.tar.gz 2) pinpoint.config from the location you specified during the step1
 4. untar pinpoint-agent-1.8.2.tar.gz under /home/vcap/deps/0/pinpoint
 5. place pinpoint.config  /home/vcap/deps/0/pinpoint
-6. set JAVA_OPS Envirionment variables for pinpoint agent in /home/vcap/deps/0/config.yml. this file will be used by java_buildpack_offline buildpack to run app. config.yml has pinpoint metadata such as AgentId, Application Name, AGENT_HOME, agent jar path.
+6. set JAVA_OPTS Envirionment variables for pinpoint agent in /home/vcap/deps/0/config.yml. this file will be used by java_buildpack_offline buildpack to run app. config.yml has pinpoint metadata such as AgentId, Application Name, AGENT_HOME, agent jar path.
 7. java_buildpack_offline start to staging runtime env for the apps.
 8. prepare runtime conmmand using /home/vcap/deps/0/config.yml.
 
