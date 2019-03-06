@@ -28,8 +28,6 @@ INDEX_DIR=$4
 source $BIN_DIR/staging-util.sh
 
 topic "starting multi-buildpack"
-env
-
 # put code in <deps>/<index>
 
 topic "Configuring multi buildpack configuration"
