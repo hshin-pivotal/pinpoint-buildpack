@@ -25,7 +25,7 @@ CACHE_DIR=$2
 DEPS_DIR=$3
 INDEX_DIR=$4
 
-source $BIN_DIR/bin/staging-util.sh
+source $BIN_DIR/staging-util.sh
 
 topic "starting multi-buildpack"
 env
