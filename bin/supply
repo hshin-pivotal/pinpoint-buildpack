@@ -34,9 +34,9 @@ topic "Starting multi-buildpack"
 if [ -z "${PINPOINT_AGENT_ZIP_DOWNLOAD_URL}" ]; then
   PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" 
 fi
-DEPS_DIR_PINPOINT_AGENT=$DEPS_DIR/$INDEX_DIR/pinpoint
-mkdir -p $DEPS_DIR_PINPOINT_AGENT
-cd $DEPS_DIR_PINPOINT_AGENT
+DEPS_DIR_PINPOINT_AGENT_DIR=$DEPS_DIR/$INDEX_DIR/pinpoint
+mkdir -p $DEPS_DIR_PINPOINT_AGENT_DIR
+cd $DEPS_DIR_PINPOINT_AGENT_DIR
 topic "Downloading pinpoint agent binaries from $PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
 wget -q $PINPOINT_AGENT_ZIP_DOWNLOAD_URL -O pinpoint-agent.zip > /dev/null 2>&1
 ls -alh pinpoint-agent.zip
@@ -56,10 +56,10 @@ fi
 
 topic "Configuring multi buildpack configuration to config.yml"
 ## find  "pinpoint-bootstrap*.jar" && replace to config.yml
-cd $DEPS_DIR_PINPOINT_AGENT
+cd $DEPS_DIR_PINPOINT_AGENT_DIR
 PINPOINT_AGENT_JAR=`find . -maxdepth 1 -name "pinpoint-bootstrap*.jar"`
 echo $PINPOINT_AGENT_JAR
-sed -i "s/__PINPOINT.AGENT_JAR__/$PINPOINT_AGENT_JAR/g"  $DEPS_DIR/$INDEX_DIR/config.yml
+sed -i "s/__PINPOINT.AGENT_JAR__/$PINPOINT_AGENT_JAR/g" $DEPS_DIR/$INDEX_DIR/config.yml
 
 cp $ROOT_DIR/lib/config.yml $DEPS_DIR/$INDEX_DIR/config.yml
 APPLICATION_NAME=`echo $VCAP_APPLICATION | jq  .application_name -r`
