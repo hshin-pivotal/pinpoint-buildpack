@@ -50,7 +50,7 @@ applications:
     PINPOINT_CONFIG_URL: https://raw.githubusercontent.com/myminseok/pinpoint_agent_repo/master/pinpoint.config-1.8.2
 ```
 - PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL: (optional, default: https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.8.2-SNAPSHOT.tar.gz?raw=true )url for pinpoint-agent-1.7.4-SNAPSHOT.tar.gz, git binary from https://github.com/naver/pinpoint/releases
-- PINPOINT_CONFIG_URL: (optional, default: pinpoint.config packaged in PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL)
+- PINPOINT_CONFIG_URL: configuraton for pinpoint. profiler.collector.ip should point the pinpoint server. (optional, default: pinpoint.config packaged in PINPOINT_AGENT_PACKAGE_DOWNLOAD_URL)
 
 ```
 cf push -f manifest.yml -b pinpoint_buildpack -b java_buildpack_offline -p build/libs/spring-music.jar
