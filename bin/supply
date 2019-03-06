@@ -26,7 +26,7 @@ INDEX_DIR=$4
 set -e
 echo "starting multi-buildpack"
 env
-echo "PINPOINT-REPO: ${PINPOINT-REPO}"
+echo "PINPOINT-REPO: ${PINPOINT_REPO}"
 # put code in <deps>/<index>
 
 echo "** Configuring multi buildpack"
