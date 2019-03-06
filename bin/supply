@@ -38,7 +38,10 @@ cat $DEPS_DIR/$INDEX_DIR/config.yml
 
 
 
-if [[ ! -v $PINPOINT_AGENT_ZIP_DOWNLOAD_URL ]]; then
+if [[ -v $PINPOINT_AGENT_ZIP_DOWNLOAD_URL ]]; then
+topic "PINPOINT_AGENT_ZIP_DOWNLOAD_URL:$PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
+else
+topic "default PINPOINT_AGENT_ZIP_DOWNLOAD_URL"
 PINPOINT_AGENT_ZIP_DOWNLOAD_URL="https://github.com/myminseok/pinpoint_agent_repo/blob/master/pinpoint-agent-1.7.4-SNAPSHOT.zip?raw=true" 
 fi
 
